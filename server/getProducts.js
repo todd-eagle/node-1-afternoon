@@ -1,14 +1,15 @@
 const products = require('../products.json');
 
 const getProducts = (req, res) => {
-    const p = req.query.price
-    if(p){
-        const filteredPrice = products.filter((element) => 
-        element.price.includes(price)
-        )
-        res.status(200).send(filteredPrice)
+    if(req.query.price) {
+        const filteredPrice = products.filter(element => element.price >= +req.query.price)
+        if (filteredPrice < 1 ) {
+          return res.status(404).send('No products found.')
+        }
+        return res.status(200).send(filteredPrice) 
+
     }
-    res.status(200).send(products);
+    res.status(200).send(products) 
 }
 
 module.exports = getProducts;
